@@ -25,6 +25,7 @@ def train_svm(X_train, y_train):
     """
     model = SVC(
         kernel=SVM_KERNEL,
+        probability=True,
         random_state=RANDOM_STATE
     )
 

@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-
-from src.predict import predict_label
+import time
+from src.predict import predict
 
 st.title("🔬 Breast Cancer Prediction")
 
@@ -137,8 +137,13 @@ if predict_button:
         "worst fractal dimension": worst_fractal_dimension
 
     }])
-
-    prediction = predict_label(patient_data)
+    start_time = time.perf_counter()
+    result = predict(patient_data)
+    prediction_time = time.perf_counter() - start_time
+    prediction = result["prediction"]
+    confidence = result["confidence"]
+    benign_probability = result["benign_probability"]
+    malignant_probability = result["malignant_probability"]
 
     st.markdown("---")
 
@@ -177,22 +182,37 @@ if predict_button:
     with col2:
 
         st.metric(
-            label="Model",
-            value="SVM"
+            "🤖 Model",
+            "SVM"
         )
 
         st.metric(
-            label="Accuracy",
-            value="98.25%"
+            "🎯 Accuracy",
+            "98.25%"
         )
 
         st.metric(
-            label="Dataset",
-            value="569 Samples"
+            "⭐ Confidence",
+            f"{confidence:.2f}%"
+        )
+
+        st.metric(
+            "⚡ Prediction Time",
+            f"{prediction_time:.4f} sec"
         )
 
 
     st.markdown("---")
+
+    st.subheader("📊 Prediction Probabilities")
+    prob_col1, prob_col2 = st.columns(2)
+    with prob_col1:
+        st.progress(benign_probability / 100)
+        st.write(f"🟢 Benign: **{benign_probability:.2f}%**")
+    with prob_col2:
+        st.progress(malignant_probability / 100)
+        st.write(f"🔴 Malignant: **{malignant_probability:.2f}%**")
+
 
     with st.expander("📄 View Entered Patient Measurements"):
 

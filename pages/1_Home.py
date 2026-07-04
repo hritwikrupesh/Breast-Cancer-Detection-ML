@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 st.title("🏥 Breast Cancer Detection System")
 
@@ -6,76 +7,90 @@ st.markdown(
     """
     ### Early Detection of Breast Cancer using Machine Learning
 
-    This web application predicts whether a breast tumor is **Benign** or **Malignant**
+    This application predicts whether a breast tumor is **Benign** or **Malignant**
     using a trained **Support Vector Machine (SVM)** model.
 
-    It demonstrates a complete Machine Learning pipeline from data preprocessing
-    to model deployment using Streamlit.
+    The goal is to assist in early diagnosis using machine learning techniques.
     """
 )
 
 st.markdown("---")
 
-col1, col2 = st.columns(2)
+# ==========================
+# Dashboard Metrics
+# ==========================
+
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.subheader("📊 Model Information")
-
-    st.success("Best Model : Support Vector Machine (SVM)")
-    st.success("Accuracy : 98.25%")
-    st.success("Precision : 98.61%")
-    st.success("Recall : 98.61%")
-    st.success("F1 Score : 98.61%")
+    st.metric("📊 Dataset", "569")
 
 with col2:
-    st.subheader("📁 Dataset")
+    st.metric("🧬 Features", "30")
 
-    st.info("""
-Wisconsin Breast Cancer Diagnostic Dataset
+with col3:
+    st.metric("🤖 Best Model", "SVM")
 
-• 569 Samples
-
-• 30 Features
-
-• Binary Classification
-
-• Target Classes:
-    - Benign
-    - Malignant
-""")
+with col4:
+    st.metric("🎯 Accuracy", "98.25%")
 
 st.markdown("---")
 
-st.subheader("⚙️ Technologies Used")
+# ==========================
+# Model Comparison
+# ==========================
+
+st.subheader("📈 Model Performance Comparison")
+
+comparison = pd.DataFrame(
+    {
+        "Model": ["Support Vector Machine", "Decision Tree"],
+        "Accuracy": [98.25, 92.10]
+    }
+)
+
+st.bar_chart(
+    comparison.set_index("Model")
+)
+
+st.markdown("---")
+
+# ==========================
+# Technologies
+# ==========================
+
+st.subheader("⚙️ Technology Stack")
 
 tech1, tech2, tech3, tech4 = st.columns(4)
 
 with tech1:
-    st.metric("Python", "3.12")
+    st.success("🐍 Python")
 
 with tech2:
-    st.metric("Scikit-Learn", "ML")
+    st.success("📊 Pandas")
 
 with tech3:
-    st.metric("Pandas", "Data")
+    st.success("🤖 Scikit-Learn")
 
 with tech4:
-    st.metric("Streamlit", "UI")
+    st.success("🎨 Streamlit")
 
 st.markdown("---")
 
+# ==========================
+# Workflow
+# ==========================
+
 st.subheader("🚀 Machine Learning Workflow")
 
-st.markdown("""
-1. Data Understanding
+workflow = [
+    "📂 Data Understanding",
+    "🧹 Data Preprocessing",
+    "📊 Exploratory Data Analysis",
+    "🤖 Model Training",
+    "📈 Model Evaluation",
+    "🚀 Streamlit Deployment"
+]
 
-2. Data Preprocessing
-
-3. Exploratory Data Analysis (EDA)
-
-4. Model Building
-
-5. Model Evaluation
-
-6. Model Deployment using Streamlit
-""")
+for step in workflow:
+    st.write(step)

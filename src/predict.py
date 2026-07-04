@@ -1,8 +1,7 @@
 """
 Prediction Module
 -----------------
-This module loads the trained model and scaler
-to make predictions on new patient data.
+Loads the trained model and scaler to make predictions.
 """
 
 import joblib
@@ -26,48 +25,43 @@ def load_model():
 
 def predict(sample):
     """
-    Predict whether a tumor is Benign or Malignant.
-
-    Parameters
-    ----------
-    sample : pandas.DataFrame or dict
-        Input features for one patient.
+    Predict breast cancer diagnosis.
 
     Returns
     -------
-    int
-        0 -> Malignant
-        1 -> Benign
+    dict
+        {
+            "prediction": "Benign" or "Malignant",
+            "class": 0 or 1,
+            "confidence": xx.xx
+        }
     """
 
     scaler = load_scaler()
     model = load_model()
 
-    # Convert dictionary to DataFrame
     if isinstance(sample, dict):
         sample = pd.DataFrame([sample])
 
-    # Ensure input is a DataFrame
     if not isinstance(sample, pd.DataFrame):
         raise ValueError(
-            "Input must be a pandas DataFrame or a dictionary."
+            "Input must be a pandas DataFrame or dictionary."
         )
 
     sample_scaled = scaler.transform(sample)
 
-    prediction = model.predict(sample_scaled)
+    prediction = model.predict(sample_scaled)[0]
 
-    return prediction[0]
+    probabilities = model.predict_proba(sample_scaled)[0]
 
+    confidence = probabilities[prediction] * 100
 
-def predict_label(sample):
-    """
-    Return prediction as text.
-    """
+    label = "Benign" if prediction == 1 else "Malignant"
 
-    prediction = predict(sample)
-
-    if prediction == 1:
-        return "Benign"
-
-    return "Malignant"
+    return {
+    "prediction": label,
+    "class": int(prediction),
+    "confidence": confidence,
+    "benign_probability": probabilities[1] * 100,
+    "malignant_probability": probabilities[0] * 100
+}
