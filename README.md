@@ -4,7 +4,13 @@ An end-to-end **Machine Learning** project that predicts whether a breast tumor 
 
 ---
 
+## 🖥️ Application Preview
+
+![Application Preview](assets/app.png)
+
 ## 🌟 Features
+
+---
 
 - 📊 Data Understanding & Exploration
 - 🧹 Data Preprocessing
