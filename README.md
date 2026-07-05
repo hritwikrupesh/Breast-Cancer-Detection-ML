@@ -2,6 +2,12 @@
 
 An end-to-end **Machine Learning** project that predicts whether a breast tumor is **Benign** or **Malignant** using a **Support Vector Machine (SVM)** classifier. The project covers the complete ML lifecycle—from data understanding and preprocessing to model training, evaluation, and deployment with **Streamlit**.
 
+## 🌐 Live Demo
+
+🚀 **Try the application here**
+
+https://breast-cancer-detection-ml-hritwik.streamlit.app
+
 ---
 
 ## 🖥️ Application Preview
